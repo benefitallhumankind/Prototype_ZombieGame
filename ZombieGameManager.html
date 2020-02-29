@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>보도보도 지니어스 : 좀비게임</title>
+    <link href="icon.png" rel="shortcut icon" type="image/x-icon">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            text-align: center;
+        }
+        a{text-decoration: none; color:#aaa;}
+        a:hover{color:#000;}
+        #wrap {width: 800px; margin:0 auto; padding: 50px 0;}
+        .firstz{font-size:13px; color:crimson; position: absolute; top:17px;left:17px;}
+        label {position: relative; display:block; cursor:pointer; float:left; margin: 5px; border: 1px solid #aaa; width:188px; padding: 5px 0;}
+        label.checked{background-color:lightpink; }
+        label:hover {background-color: #eee}
+        label .score {font-weight: bold;}
+        #nameList:after{content:"";display:block;clear:both;}
+        #btnList{margin:15px 0 35px;}
+        #btnList>button{width: 150px; padding: 5px 10px;cursor:pointer}
+        #btnList>button:hover{background: crimson; color:white;}
+        #log {width:calc(100% - 20px);height:350px; border:1px solid #aaa; overflow-y:scroll;text-align: left; padding:10px;}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div id="wrap">
+        <div style="margin-bottom:30px;">
+            <img src="icon.png" alt="보도보도 로고" style="width:70px;height:70px;vertical-align: middle;">
+            <h1 style="display:inline-block;vertical-align: middle;">보도보도 제 2회 지니어스 : 좀비게임</h1>
+            <img src="zombie.png" alt="좀비" style="width:70px;height:70px;vertical-align: middle;">
+        </div>
+        <div id="nameList">
+            <h2>
+                <span id="times">
+                    <span id="round">1</span>ROUND 
+                    <span id="min">00</span>:<span id="sec">00</span>
+                </span>
+                <a href="#0" id="start" onclick="clockStart();">▶</a>
+                <a href="#0" id="stop" onclick="clockStop()">■</a>
+            </h2>
+            <h3>참가자</h3>
+            <p style="margin: 10px;">사람을 선택하고 아래 버튼을 눌러 실행 (최대 2명 선택)</p>
+            <form id="members">
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">강명석</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p1" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">강준형</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p2" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">김영호</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p3" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">박준규</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p4" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">이 진</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p5" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">이호재</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p6" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">전도형</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p7" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">정민경</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p8" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">정현진</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p9" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">천용준</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p10" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">편오현</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p11" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="0">
+                </label>
+                <label>
+                    <img src="human.png" style="width:30px;height:30px;vertical-align: middle;">
+                    <span class="user">허태원</span>
+                    <span class="score">0</span>
+                    <input type="checkbox" name="player" id="p12" value="0">
+                    <input type="hidden" name="cure" value="1">
+                    <input type="hidden" name="time"" value="1">
+                </label>
+            </form>
+        </div>
+        <div id="btnList">
+            <button id="setZombie" onclick="setZombie();">최초좀비로 설정</button>
+            <button id="touch" onclick="touch();">터치</button>
+            <button id="useCure" onclick="useCure();">치료제 사용</button>
+            <button id="addCure" onclick="addCure();">치료제 획득</button>
+        </div>
+        <div id="log">
+        </div>
+        <script>
+            var touchArr;
+            var hasFirstZombie = false;
+            var onClock = false;
+            var clockInterval;
+            function clockStart(){
+                if(onClock) return;
+                clockInterval = setInterval(function(){
+                    let sec = Number($("#sec").text());
+                    let min = Number($("#min").text());
+                    let secstr;
+                    let minstr;
+                    if(++sec > 59){
+                        sec = 0;
+                        min++;                        
+                    }
+                    if(min>44){
+                        $("#round").text(4);
+                    } else if(min>29){
+                        $("#round").text(3);
+                    } else if(min>14){
+                        $("#round").text(2);
+                    }
+                    secstr = sec<10?"0"+sec:sec;
+                    minstr = min<10?"0"+min:min;
+                    
+                    $("#sec").text(secstr);
+                    $("#min").text(minstr);
+                },1000);
+                onClock = true;
+            }
+            function clockStop(){
+                clearInterval(clockInterval);
+                onClock = false;
+            }
+
+            function addLog(msg){
+                let times = $("#times").text();
+                $("#log").prepend("<p>"+times+" - "+msg+"<P>");
+            }
+            //최초좀비 설정
+            function setZombie (){
+                if(hasFirstZombie){
+                    return alert("최초좀비가 이미 설정되어있습니다");
+                }
+                if($("input[type='checkbox']:checked").length != 2 ){
+                    return alert("최초좀비로 지정할 2명을 선택해주세요");
+                }
+                let p1 = $("input:checkbox[name='player']:checked").eq(0);
+                let p2 = $("input:checkbox[name='player']:checked").eq(1);
+                p1.val("11");
+                p2.val("11");
+                p1.parent().prepend("<span class='firstz'>최초<span>");
+                p2.parent().prepend("<span class='firstz'>최초<span>");
+                $("#members")[0].reset();
+                $("input:checkbox[name='player']").parent("label").removeClass();
+                setImg();
+                hasFirstZombie = true;
+                alert("좀비가 나타났다!");
+                addLog("최초 좀비 등장 : "+p1.siblings(".user").text()+", "+p2.siblings(".user").text());
+            }
+
+            //value에 따라 이미지 변경
+            function setImg(){
+                $("input:checkbox[value*='1']").siblings("img").attr("src","zombie.png");
+                $("input:checkbox[value='0']").siblings("img").attr("src","human.png");
+            }
+            
+            //터치 클릭시
+            function touch(){
+                if(!hasFirstZombie){
+                    $("#members")[0].reset();
+                    $("input:checkbox[name='player']").parent("label").removeClass();
+                    return alert("최초좀비 먼저 설정해주세요");
+                }
+                let p1 = $("input:checkbox[name='player']:checked").eq(0);
+                let p2 = $("input:checkbox[name='player']:checked").eq(1);
+                let p1n = Number(p1.siblings(".score").text());
+                let p2n = Number(p2.siblings(".score").text());
+
+                if(isChecked(2)){
+                    let confirmed = confirm(
+                        "'"+ p1.siblings(".user").text()+"'"+"님과 '"+ p2.siblings(".user").text()+"'님 터치합니까?");
+                    if(confirmed){
+                        let msg = p1.siblings(".user").text()+(p1.val()==0?"h":"z") +", "+ p2.siblings(".user").text()+(p2.val()==0?"h":"z")+" 터치 >>> ";
+                        if(p1.val() + p2.val()==0 && p1.val() * p2.val() == 0){
+                            //둘다 사람일 경우
+                            p1.siblings(".score").text( ++p1n );
+                            p2.siblings(".score").text( ++p2n );
+                            msg += "둘 다 승점 +1";
+                        } else if(p1.val()+p2.val()>0 && p1.val()*p2.val()==0){
+                            //한명이 좀비일 경우
+                            let ph = $("input[value='0']:checked");
+                            let pz = $("input[value*='1']:checked");
+                            let pzn = Number(pz.siblings(".score").text());
+                            ph.val('1');
+                            ph.siblings("input[name='time']").val(Number($("#min").text())*60+Number($("#sec").text()));
+                            msg += ph.siblings(".user").text()+" 좀비 됨";
+                            if(pz.val()=='11'){ //p2가 최초 좀비일 경우
+                                pz.siblings(".score").text(++pzn);
+                                msg += ", "+pz.siblings(".user").text()+ " 승점 +1";
+                            }
+                        } else{
+                            //둘다 좀비일 경우
+                            msg += "아무일도 일어나지 않았다";
+                        }
+                        
+                        addLog(msg);
+                    }
+                } else{
+                    return alert("터치할 2명을 선택해주세요");
+                }
+                
+                //value에 따라 이미지 변경
+                $("#members")[0].reset();
+                $("input:checkbox[name='player']").parent("label").removeClass();
+                setImg();
+            }
+
+            //치료제 사용
+            function useCure(){
+                if(!hasFirstZombie){
+                    $("#members")[0].reset();
+                    $("input:checkbox[name='player']").parent("label").removeClass();
+                    return alert("최초좀비 먼저 설정해주세요");
+                }
+                let p = $("input:checkbox[name='player']:checked");
+                let confirmed;
+                p.each(function(idx,item){
+                    let cureNum = Number($(item).siblings("input[name='cure']").val());
+                    if(cureNum<1){
+                        alert("'"+$(item).siblings(".user").text()+"'님은 치료제가 없습니다");
+                        return;
+                    }
+                    let curr = (Number($("#min").text())*60) + (Number($("#sec").text()));
+                    let time = Number($(item).siblings("input[name='time']").val());
+                    
+                    confirmed = confirm("'"+$(item).siblings(".user").text()+"'님 치료제를 사용합니까?");
+                    if(confirmed){
+                        console.log(curr, time);
+                        if($(item).val()=='1' && curr <= time + 300){
+                            $(item).val(0);
+                        }
+                        $(item).siblings("input[name='cure']").val(--cureNum);                        
+                        addLog($(item).siblings(".user").text()+" 치료제 사용"+(curr <= time + 300?' 성공':' 시간초과')+", 남은 치료제 : "+$(item).siblings("input[name='cure']").val());
+                        alert("치료제를 사용했습니다");
+                    }
+                })
+
+                $("#members")[0].reset();
+                $("input:checkbox[name='player']").parent("label").removeClass();
+                setImg();
+            }
+
+            //치료제 추가
+            function addCure(){                
+                if(!hasFirstZombie){
+                    $("#members")[0].reset();
+                    $("input:checkbox[name='player']").parent("label").removeClass();
+                    return alert("최초좀비 먼저 설정해주세요");
+                }
+                let p = $("input:checkbox[name='player']:checked");
+                let confirmed;
+                p.each(function(idx,item){
+                    let cureNum = Number($(item).siblings("input[name='cure']").val());
+                    confirmed = confirm("'"+$(item).siblings(".user").text()+"'님께 치료제를 추가합니까?");
+                    if(confirmed){
+                        $(item).siblings("input[name='cure']").val(++cureNum);                        
+                        addLog($(item).siblings(".user").text()+" 치료제  획득, 남은 치료제 : "+$(item).siblings("input[name='cure']").val());
+                    }
+                })
+            }
+
+            //체크박스 유효성 검사
+            function isChecked(n){
+                let checks = $("input:checkbox[name='player']:checked").length;
+                if(checks!=n){
+                    return false;
+                }
+                return true;
+            }
+            $(function(){
+                $("input:checkbox[name='player']").change(function(){
+                    $("input:checkbox[name='player']").parent("label").removeClass();
+                    $("input:checkbox[name='player']:checked").parent("label").addClass("checked");
+                    let checks = $("input:checkbox[name='player']:checked").length;
+                    if(checks>2){
+                        $(this).prop("checked",false);
+                        $(this).parent().removeClass();
+                        alert("2 명 이상 선택할 수 없습니다.");
+                    }
+                })
+            })
+        </script>
+    </div>
+</body>
+
+</html>
